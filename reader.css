@@ -1,47 +1,52 @@
-/* --- UPDATED STYLES --- */
+/* --- NEW "DARK MODE" STYLES --- */
 
-/* The main container is now the widget itself, positioned on the page */
+/* The main container styled like the image */
 #accessibility-container {
     position: fixed;
-    bottom: 15px;
-    right: 15px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    padding: 15px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #1C1C1E; /* Dark charcoal background */
+    border-radius: 16px; /* Rounded corners */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2); /* A softer shadow */
+    padding: 12px 20px;
     z-index: 1000;
+    display: flex;
+    align-items: center;
 }
 
-/* Container for the setting row */
+/* The row containing the text and switch */
 .setting-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-width: 180px;
+    width: 100%;
 }
 
+/* The "mode" text style */
 .setting-row span {
-    font-size: 16px;
-    color: #333;
-    margin-right: 15px;
+    color: #FFFFFF; /* White text */
+    font-size: 17px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    margin-right: 20px;
 }
 
-/* The switch - a label containing a hidden checkbox */
+/* The switch container */
 .switch {
     position: relative;
     display: inline-block;
-    width: 50px;
-    height: 28px;
+    width: 51px;
+    height: 31px;
 }
 
-/* Hide the default HTML checkbox */
+/* Hide default checkbox */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-/* The slider track */
+/* The slider track, styled to match the image */
 .slider {
     position: absolute;
     cursor: pointer;
@@ -49,29 +54,33 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: #39393D; /* Medium gray for the track */
     transition: .4s;
-    border-radius: 28px;
+    border-radius: 34px;
 }
 
-/* The slider nub */
+/* The slider nub, styled to match the image */
 .slider:before {
     position: absolute;
     content: "";
-    height: 20px;
-    width: 20px;
-    left: 4px;
-    bottom: 4px;
+    height: 27px;
+    width: 27px;
+    left: 2px;
+    bottom: 2px;
     background-color: white;
     transition: .4s;
     border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15); /* Subtle shadow for depth */
 }
 
-/* Styling for the ON state */
+/* --- STYLING FOR THE "ON" STATE --- */
+
+/* Change track color to blue when active */
 input:checked + .slider {
-    background-color: #2196F3; /* Blue when ON */
+    background-color: #0A84FF;
 }
 
+/* Move the nub to the right when active */
 input:checked + .slider:before {
-    transform: translateX(22px); /* Move the nub */
+    transform: translateX(20px);
 }
