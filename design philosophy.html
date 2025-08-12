@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Our Philosophy - Capwise</title>
+    <meta name="description" content="The design philosophy, team, and values that guide Capwise.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/1E40AF/FFFFFF?text=C&font=inter">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #111827; /* Dark Slate Blue */
+            --card-bg: #1f2937; /* Lighter Slate */
+            --border-color: #374151;
+            --text-primary: #f9fafb; /* Off-white */
+            --text-secondary: #9ca3af; /* Gray */
+            --brand-primary: #3b82f6; /* Bright Blue */
+            --brand-gradient: linear-gradient(to right, #3b82f6, #60a5fa);
+            --font-family: 'Inter', sans-serif;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Reusable Header --- */
+        .site-header {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 1000;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(31, 41, 55, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
+        }
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+        .navbar-logo img { height: 40px; border-radius: 50%; }
+        .navbar-links { display: flex; gap: 32px; }
+        .navbar-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.3s; }
+        .navbar-links a:hover { color: var(--text-primary); }
+        .navbar-actions { display: flex; gap: 12px; }
+        .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 2px solid transparent; transition: all 0.3s; cursor: pointer; text-align: center; }
+        .btn-primary { background: var(--brand-primary); color: #fff; }
+        .btn-primary:hover { background: #2563eb; transform: translateY(-2px); }
+        .btn-secondary { background-color: var(--card-bg); color: var(--text-primary); border-color: var(--border-color); }
+        .btn-secondary:hover { background-color: var(--border-color); }
+        
+        /* --- Page Specific Styles --- */
+        main {
+            padding-top: 150px;
+            padding-bottom: 80px;
+        }
+
+        .page-section {
+            max-width: 900px;
+            margin: 0 auto 5rem;
+            padding: 0 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-header h1, .section-header h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            background: var(--brand-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+        .section-header p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        .section-header h2 {
+             font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        .philosophy-grid {
+            display: grid;
+            gap: 2.5rem;
+        }
+
+        .principle-card, .testimonial-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+        .principle-card {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .principle-icon {
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: var(--bg-dark);
+        }
+        .principle-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--brand-primary);
+        }
+        
+        .principle-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+        .principle-text p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        /* UPDATED Team Section Styles */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+        }
+        .team-member-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+        .team-member-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            object-fit: cover;
+        }
+        .team-member-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .team-member-card p {
+            font-size: 1rem;
+            color: var(--brand-primary);
+            font-weight: 500;
+        }
+
+        /* Testimonial Styles */
+        .testimonial-card {
+            text-align: center;
+        }
+        .testimonial-card blockquote {
+            font-size: 1.25rem;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+        .testimonial-card footer {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .testimonial-card footer span {
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+        .placement-note {
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+        
+        /* NEW Styles for PageSpeed Image */
+        .performance-proof {
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .performance-proof img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .performance-proof figcaption {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+
+        @media (max-width: 768px) {
+            .principle-card {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 2rem;
+            }
+            .section-header h1, .section-header h2 { font-size: 2.5rem; }
+            .section-header p { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar">
+            <a href="index.html" class="navbar-logo">
+                <img src="https://placehold.co/100x100/3b82f6/FFFFFF?text=C&font=inter" alt="Capwise Logo">
+                <span>CAPWISE</span>
+            </a>
+            <div class="navbar-links">
+                <a href="index.html#features">Features</a>
+                <a href="#">About Us</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="navbar-actions">
+                <a href="#" class="btn btn-secondary">Login</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Section 1: Design Philosophy -->
+        <section class="page-section" id="philosophy">
+            <div class="section-header">
+                <h1>Design is How It Works</h1>
+                <p>Our tools are a reflection of our belief that complex financial concepts can be made simple, intuitive, and empowering for founders.</p>
+            </div>
+            <div class="philosophy-grid">
+                <div class="principle-card">
+                    <div class="principle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.354a15.056 15.056 0 0 1-4.5 0m3.75 2.354a18.083 18.083 0 0 1-4.5 0M6.75 12.75h10.5a2.25 2.25 0 0 1 2.25 2.25v1.5a2.25 2.25 0 0 1-2.25 2.25H6.75a2.25 2.25 0 0 1-2.25-2.25v-1.5a2.25 2.25 0 0 1 2.25-2.25Z" /></svg></div>
+                    <div class="principle-text"><h3>Founder-First Clarity</h3><p>Every element is designed with the founder's perspective in mind. We relentlessly cut through jargon to provide clear, actionable insights. If it doesn't help you make a better decision, it doesn't belong here.</p></div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12.75h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z" /></svg></div>
+                    <div class="principle-text"><h3>Data-Driven Transparency</h3><p>Valuation shouldn't be a black box. Our platform shows the "how" and "why" behind every number, turning data into a story you can confidently present to investors.</p></div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" /></svg></div>
+                    <div class="principle-text"><h3>Empowerment Through Simplicity</h3><p>A powerful tool should feel effortless. We are obsessed with creating an intuitive user experience that gives you the power of a financial expert, wrapped in a tool you'll actually enjoy using.</p></div>
+                </div>
+                <div class="principle-card">
+                    <div class="principle-icon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg></div>
+                    <div class="principle-text">
+                        <h3>Elegant & Efficient</h3>
+                        <p>Aesthetics and performance are two sides of the same coin. A clean, uncluttered interface reduces cognitive load, allowing you to focus on what matters. Our commitment to elegant design is a commitment to a faster, more reliable platform.</p>
+                        <figure class="performance-proof">
+                            <img src="pGEspeed.jpg" alt="Google PageSpeed Insights score showing excellent performance">
+                            <figcaption>We don't just talk about performance, we measure it.</figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Team -->
+        <section class="page-section" id="team">
+            <div class="section-header">
+                <h2>The Minds Behind the Mission</h2>
+            </div>
+            <div class="team-grid">
+                <div class="team-member-card">
+                    <img src="https://placehold.co/240x240/e2e8f0/111827?text=Vivaan" alt="Vivaan, Co-Founder">
+                    <h3>Vivaan</h3>
+                    <p>Co-Founder</p>
+                </div>
+                <div class="team-member-card">
+                    <img src="https://placehold.co/240x240/e2e8f0/111827?text=Kartik" alt="Kartik, Co-Founder">
+                    <h3>Kartik</h3>
+                    <p>Co-Founder</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Testimonial -->
+        <section class="page-section" id="testimonial">
+            <div class="section-header">
+                <h2>From a Founder Like You</h2>
+            </div>
+            <div class="testimonial-card">
+                <blockquote>"Capwise transformed our fundraising process. The valuation report was clear, professional, and gave us the confidence we needed to walk into investor meetings. It's an essential tool for any serious Indian startup."</blockquote>
+                <footer>— <span>Priya Sharma</span>, CEO of Innovatech Solutions</footer>
+            </div>
+            <p class="placement-note">This testimonial would be placed on our main landing page, within a dedicated "What Founders Say" section.</p>
+        </section>
+    </main>
+
+</body>
+</html>
