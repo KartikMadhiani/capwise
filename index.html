@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="reader.css">
     <style>
         /* Make modal content scrollable on smaller screens */
         .modal-container {
@@ -357,11 +356,16 @@
             });
         });
     </script>
-    <div id="accessibility-container"></div>
-    <script src="reader.js"></script>
+    <div style="position: fixed; bottom: 10px; right: 10px; z-index: 999;">
+    <button id="readButton" title="Read Page">▶️ Read</button>
+    <button id="stopButton" title="Stop Reading">⏹️ Stop</button>
+</div>
+
+<script src="screen reader.js"></script>
 </body>
 
 </html>
+
 
 
 
