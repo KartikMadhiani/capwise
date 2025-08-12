@@ -1,53 +1,87 @@
-.reader-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+/* --- Styles for the Dark Mode Reader Widget --- */
+
+/* This is the main container for the switch, positioned on the page */
+#accessibility-container {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 9999;
-    background: #1e1e1e;
-    padding: 8px 12px;
-    border-radius: 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-    color: white;
-    font-family: sans-serif;
+    background-color: #1C1C1E; /* Dark charcoal background from image */
+    border-radius: 16px; /* Rounded corners */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2); /* Soft shadow for depth */
+    padding: 12px 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
 }
 
-/* Toggle switch style */
+/* A container for the text and the switch */
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Styles the "Reader Mode" text */
+.setting-row span {
+    color: #FFFFFF; /* White text */
+    font-size: 17px;
+    /* Use the same font as your site for consistency */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 500;
+    margin-right: 20px;
+}
+
+/* The switch container */
 .switch {
     position: relative;
     display: inline-block;
-    width: 44px;
-    height: 24px;
+    width: 51px;
+    height: 31px;
 }
 
-.switch input { display: none; }
+/* Hides the default browser checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 
+/* The track of the slider */
 .slider {
     position: absolute;
     cursor: pointer;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
-    background-color: #555;
-    transition: 0.4s;
-    border-radius: 34px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #39393D; /* Medium gray track from image */
+    transition: .4s;
+    border-radius: 34px; /* Makes it pill-shaped */
 }
 
+/* The white circle/nub of the slider */
 .slider:before {
     position: absolute;
     content: "";
-    height: 18px; width: 18px;
-    left: 3px; bottom: 3px;
+    height: 27px;
+    width: 27px;
+    left: 2px;
+    bottom: 2px;
     background-color: white;
-    transition: 0.4s;
+    transition: .4s;
     border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15); /* Adds subtle depth */
 }
 
+/* --- Styling for the "ON" state --- */
+
+/* Changes track color to blue when active */
 input:checked + .slider {
-    background-color: #4CAF50;
+    background-color: #0A84FF;
 }
 
+/* Moves the nub to the right when active */
 input:checked + .slider:before {
     transform: translateX(20px);
 }
