@@ -1,86 +1,53 @@
-/* --- NEW "DARK MODE" STYLES --- */
-
-/* The main container styled like the image */
-#accessibility-container {
+.reader-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #1C1C1E; /* Dark charcoal background */
-    border-radius: 16px; /* Rounded corners */
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2); /* A softer shadow */
-    padding: 12px 20px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
+    z-index: 9999;
+    background: #1e1e1e;
+    padding: 8px 12px;
+    border-radius: 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    color: white;
+    font-family: sans-serif;
 }
 
-/* The row containing the text and switch */
-.setting-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-/* The "mode" text style */
-.setting-row span {
-    color: #FFFFFF; /* White text */
-    font-size: 17px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    font-weight: 500;
-    margin-right: 20px;
-}
-
-/* The switch container */
+/* Toggle switch style */
 .switch {
     position: relative;
     display: inline-block;
-    width: 51px;
-    height: 31px;
+    width: 44px;
+    height: 24px;
 }
 
-/* Hide default checkbox */
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+.switch input { display: none; }
 
-/* The slider track, styled to match the image */
 .slider {
     position: absolute;
     cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #39393D; /* Medium gray for the track */
-    transition: .4s;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #555;
+    transition: 0.4s;
     border-radius: 34px;
 }
 
-/* The slider nub, styled to match the image */
 .slider:before {
     position: absolute;
     content: "";
-    height: 27px;
-    width: 27px;
-    left: 2px;
-    bottom: 2px;
+    height: 18px; width: 18px;
+    left: 3px; bottom: 3px;
     background-color: white;
-    transition: .4s;
+    transition: 0.4s;
     border-radius: 50%;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.15); /* Subtle shadow for depth */
 }
 
-/* --- STYLING FOR THE "ON" STATE --- */
-
-/* Change track color to blue when active */
 input:checked + .slider {
-    background-color: #0A84FF;
+    background-color: #4CAF50;
 }
 
-/* Move the nub to the right when active */
 input:checked + .slider:before {
     transform: translateX(20px);
 }
