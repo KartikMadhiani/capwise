@@ -1,61 +1,62 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if the browser supports the Speech Synthesis API
+    // Check for browser support
     if (!('speechSynthesis' in window)) {
         console.log('Sorry, your browser does not support text-to-speech.');
-        return; // Exit if not supported
+        return;
     }
 
     const container = document.getElementById('accessibility-container');
     if (!container) return;
 
-    // --- Create Widget Elements ---
-    // The ♿ icon is a universal symbol for accessibility
-    const toggleButton = document.createElement('button');
-    toggleButton.id = 'accessibility-toggle';
-    toggleButton.innerHTML = '♿'; 
-    toggleButton.title = 'Accessibility Tools';
-
-    const controlsDiv = document.createElement('div');
-    controlsDiv.id = 'accessibility-controls';
-
-    const readButton = document.createElement('button');
-    readButton.id = 'readButton';
-    readButton.textContent = '▶️ Read Page';
-
-    const stopButton = document.createElement('button');
-    stopButton.id = 'stopButton';
-    stopButton.textContent = '⏹️ Stop Reading';
+    // --- Create and add the switch directly to the container ---
+    const settingRow = document.createElement('div');
+    settingRow.className = 'setting-row';
     
-    // Add elements to the controls panel, then to the main container
-    controlsDiv.appendChild(readButton);
-    controlsDiv.appendChild(stopButton);
-    container.appendChild(toggleButton);
-    container.appendChild(controlsDiv);
+    const labelSpan = document.createElement('span');
+    labelSpan.textContent = 'Reader Mode';
+    
+    const switchLabel = document.createElement('label');
+    switchLabel.className = 'switch';
 
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    
+    const sliderSpan = document.createElement('span');
+    sliderSpan.className = 'slider';
+
+    // Assemble the switch and the row
+    switchLabel.appendChild(checkbox);
+    switchLabel.appendChild(sliderSpan);
+    settingRow.appendChild(labelSpan);
+    settingRow.appendChild(switchLabel);
+    
+    // Add the row directly to the main container
+    container.appendChild(settingRow);
 
     // --- Add Functionality ---
     const synth = window.speechSynthesis;
-    const contentToRead = document.body;
 
-    // Toggle the controls panel visibility
-    toggleButton.addEventListener('click', () => {
-        controlsDiv.classList.toggle('visible');
-    });
-    
-    // Function to start reading
-    readButton.addEventListener('click', () => {
-        if (synth.speaking) {
-            synth.cancel(); // Stop any current speech before starting
-        }
-        const utterance = new SpeechSynthesisUtterance(contentToRead.textContent);
-        utterance.onerror = (event) => console.error('SpeechSynthesisUtterance.onerror', event);
-        synth.speak(utterance);
-        controlsDiv.classList.remove('visible'); // Hide menu after clicking
-    });
-
-    // Function to stop reading
-    stopButton.addEventListener('click', () => {
+    // Listen for changes on the toggle switch
+    checkbox.addEventListener('change', (event) => {
+        // Stop any speech if the switch is toggled
         synth.cancel();
-        controlsDiv.classList.remove('visible'); // Hide menu after clicking
+
+        if (event.target.checked) {
+            // If switch is turned ON, start reading the page body
+            const contentToRead = document.body;
+            const utterance = new SpeechSynthesisUtterance(contentToRead.textContent);
+            
+            // When speech ends naturally, turn the switch OFF
+            utterance.onend = () => {
+                checkbox.checked = false;
+            };
+            
+            utterance.onerror = (err) => {
+                console.error('SpeechSynthesisUtterance.onerror', err);
+                checkbox.checked = false; // Also turn off on error
+            };
+            
+            synth.speak(utterance);
+        }
     });
 });
