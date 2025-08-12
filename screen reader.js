@@ -1,35 +1,61 @@
-// Wait for the webpage to fully load before running the script
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Select the control buttons and the main content of the page
-    const readButton = document.getElementById('readButton');
-    const stopButton = document.getElementById('stopButton');
-    const contentToRead = document.body; // Reads the entire page body
-
     // Check if the browser supports the Speech Synthesis API
-    if ('speechSynthesis' in window) {
-        const synth = window.speechSynthesis;
-        let utterance = new SpeechSynthesisUtterance();
-
-        // Function to start reading
-        readButton.addEventListener('click', () => {
-            if (synth.speaking) {
-                synth.cancel(); // Stop any current speech before starting anew
-            }
-            // Get all visible text from the page
-            utterance.text = contentToRead.textContent;
-            synth.speak(utterance);
-        });
-
-        // Function to stop reading
-        stopButton.addEventListener('click', () => {
-            synth.cancel();
-        });
-
-    } else {
-        // If the browser doesn't support the API, hide the controls
+    if (!('speechSynthesis' in window)) {
         console.log('Sorry, your browser does not support text-to-speech.');
-        readButton.style.display = 'none';
-        stopButton.style.display = 'none';
+        return; // Exit if not supported
     }
+
+    const container = document.getElementById('accessibility-container');
+    if (!container) return;
+
+    // --- Create Widget Elements ---
+    // The ♿ icon is a universal symbol for accessibility
+    const toggleButton = document.createElement('button');
+    toggleButton.id = 'accessibility-toggle';
+    toggleButton.innerHTML = '♿'; 
+    toggleButton.title = 'Accessibility Tools';
+
+    const controlsDiv = document.createElement('div');
+    controlsDiv.id = 'accessibility-controls';
+
+    const readButton = document.createElement('button');
+    readButton.id = 'readButton';
+    readButton.textContent = '▶️ Read Page';
+
+    const stopButton = document.createElement('button');
+    stopButton.id = 'stopButton';
+    stopButton.textContent = '⏹️ Stop Reading';
+    
+    // Add elements to the controls panel, then to the main container
+    controlsDiv.appendChild(readButton);
+    controlsDiv.appendChild(stopButton);
+    container.appendChild(toggleButton);
+    container.appendChild(controlsDiv);
+
+
+    // --- Add Functionality ---
+    const synth = window.speechSynthesis;
+    const contentToRead = document.body;
+
+    // Toggle the controls panel visibility
+    toggleButton.addEventListener('click', () => {
+        controlsDiv.classList.toggle('visible');
+    });
+    
+    // Function to start reading
+    readButton.addEventListener('click', () => {
+        if (synth.speaking) {
+            synth.cancel(); // Stop any current speech before starting
+        }
+        const utterance = new SpeechSynthesisUtterance(contentToRead.textContent);
+        utterance.onerror = (event) => console.error('SpeechSynthesisUtterance.onerror', event);
+        synth.speak(utterance);
+        controlsDiv.classList.remove('visible'); // Hide menu after clicking
+    });
+
+    // Function to stop reading
+    stopButton.addEventListener('click', () => {
+        synth.cancel();
+        controlsDiv.classList.remove('visible'); // Hide menu after clicking
+    });
 });
