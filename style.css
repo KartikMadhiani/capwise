@@ -1,0 +1,108 @@
+/* ---  1. Global Styles & Variables --- */
+:root {
+    --blue-primary: #2563EB;
+    --blue-dark: #1E40AF;
+    --navy-deep: #0A143D;
+    --slate-800: #1E293B;
+    --slate-600: #475569;
+    --slate-100: #F1F5F9;
+    --slate-200: #E2E8F0;
+    --white: #FFFFFF;
+    
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-primary); background-color: var(--white); color: var(--slate-800); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+.section-title { font-size: clamp(2rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 48px; text-align: center; color: var(--slate-800); }
+
+/* --- 2. Navigation Bar --- */
+.site-header { position: fixed; top: 16px; left: 16px; right: 16px; z-index: 1000; }
+.navbar { display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-md); }
+.navbar-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; font-weight: 700; font-size: 1.25rem; color: var(--slate-800); }
+.navbar-logo img { height: 50px; }
+.navbar-links { display: flex; gap: 32px; }
+.navbar-links a { text-decoration: none; color: var(--slate-800); font-weight: 700; transition: var(--transition); }
+.navbar-links a:hover { color: var(--blue-primary); }
+.navbar-actions { display: flex; gap: 12px; }
+.menu-toggle { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--slate-800); }
+
+/* --- 3. Buttons --- */
+.btn { display: inline-block; padding: 10px 20px; border-radius: var(--radius-md); text-decoration: none; font-weight: 600; border: 2px solid transparent; transition: var(--transition); cursor: pointer; text-align: center; }
+.btn-primary { background-color: var(--blue-primary); color: var(--white); }
+.btn-primary:hover { background-color: var(--blue-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.btn-secondary { background-color: var(--white); color: var(--blue-primary); border-color: var(--slate-200); }
+.btn-secondary:hover { background-color: var(--slate-100); }
+.btn-full { width: 100%; padding: 12px 20px; }
+
+/* --- 4. Hero Section --- */
+.hero { background-color: var(--navy-deep); color: var(--white); text-align: center; padding: 200px 24px 120px; position: relative; overflow: hidden; }
+.hero-bg-shapes { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.2) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%); z-index: 0; }
+.hero-content { position: relative; z-index: 1; }
+.hero-title { font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 24px; letter-spacing: -1px; }
+.hero-subtitle { font-size: clamp(1.1rem, 2vw, 1.25rem); max-width: 650px; margin: 0 auto; color: #A5B4FC; }
+
+/* --- 5. Content Sections & Cards --- */
+#why, #features, .faq-section, .team-section { padding: 80px 0; }
+.why-section { background-color: var(--slate-100); }
+.why-card { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); padding: 48px; max-width: 900px; margin: 0 auto; }
+.why-title { font-size: clamp(1.8rem, 3vw, 2.2rem); text-align: center; margin-bottom: 16px; }
+.why-summary { text-align: center; font-size: 1.1rem; color: var(--slate-600); max-width: 700px; margin: 0 auto 32px; }
+.why-card-content ul { list-style: none; margin: 32px 0; max-width: 550px; margin-left: auto; margin-right: auto; }
+.why-card-content li { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+.why-card-content li i { color: var(--blue-primary); margin-top: 4px; }
+.why-card-content .btn { display: block; width: fit-content; margin: 0 auto; }
+
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; }
+.feature-card { background-color: var(--white); padding: 32px; border-radius: var(--radius-lg); text-align: center; border: 1px solid var(--slate-100); box-shadow: var(--shadow-md); transition: var(--transition); display: flex; flex-direction: column; }
+.feature-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+.card-icon { display: inline-block; width: 60px; height: 60px; line-height: 60px; background-color: #E0E7FF; color: var(--blue-primary); border-radius: 50%; font-size: 1.5rem; margin-bottom: 24px; }
+.feature-card h3 { font-size: 1.25rem; margin-bottom: 12px; }
+.feature-card p { color: var(--slate-600); flex-grow: 1; margin-bottom: 24px; }
+
+/* FAQ Section */
+.faq-section { background: var(--slate-100); }
+.faq-grid { max-width: 800px; margin: 0 auto; display: grid; gap: 16px; }
+.faq-item { background: var(--white); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--slate-200); }
+.faq-item h4 { color: var(--blue-primary); margin-bottom: 8px; }
+.faq-item p { color: var(--slate-600); }
+
+/* Team Section */
+.team-grid { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin-bottom: 40px; }
+.team-member-card { text-align: center; }
+.team-member-card img { width: 120px; height: 120px; border-radius: 50%; margin-bottom: 16px; box-shadow: var(--shadow-md); }
+.team-member-card h3 { font-size: 1.25rem; }
+.team-member-card p { color: var(--slate-600); }
+.team-section .btn { display: block; width: fit-content; margin: 0 auto; }
+
+/* --- 6. Modal --- */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 20, 61, 0.8); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+.modal-overlay.visible { opacity: 1; visibility: visible; }
+.modal-container { background: var(--white); padding: 40px; border-radius: var(--radius-lg); max-width: 400px; width: 95%; position: relative; transform: scale(0.95); transition: transform 0.3s; }
+.modal-overlay.visible .modal-container { transform: scale(1); }
+.modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 1.5rem; font-weight: bold; color: var(--slate-600); cursor: pointer; }
+#modal-title { text-align: center; margin-bottom: 24px; }
+.auth-form .form-group { margin-bottom: 16px; }
+.auth-form label { display: block; font-weight: 600; margin-bottom: 6px; }
+.auth-form input { width: 100%; padding: 12px; border: 1px solid var(--slate-200); border-radius: var(--radius-md); font-size: 1rem; }
+.auth-form input:focus { outline: none; border-color: var(--blue-primary); box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2); }
+.form-switch { text-align: center; margin-top: 16px; font-size: 0.9rem; }
+.form-switch a { color: var(--blue-primary); font-weight: 600; text-decoration: none; }
+.form-switch a:hover { text-decoration: underline; }
+
+
+/* --- 7. Responsive Design --- */
+@media (max-width: 992px) {
+    .navbar-links, .navbar-actions { display: none; }
+    .menu-toggle { display: block; }
+}
+@media (max-width: 768px) {
+    .why-card { padding: 32px; }
+}

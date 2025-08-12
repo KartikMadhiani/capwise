@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Capwise - Startup Valuation Tool</title>
+    <meta name="description" content="Capwise is India's first startup valuation platform built for founders. Get transparent, data-driven, and fair valuations to impress investors.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="Gemini_Generated_Image_r4szqtr4szqtr4sz-removebg-preview.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* Make modal content scrollable on smaller screens */
+        .modal-container {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        /* Styling for the new package modal */
+        #package-modal { display: none; }
+        #package-modal.visible { display: flex; }
+        .package-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        @media (min-width: 500px) {
+            .package-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .package-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .package-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        .package-card h3 { margin-top: 0; color: #333; }
+        .package-card:hover h3 { color: #007bff; }
+        .package-card p { font-size: 0.9em; color: #666; line-height: 1.5; }
+        .package-card .btn { margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar">
+            <a href="index.html" class="navbar-logo">
+                <img src="Gemini_Generated_Image_r4szqtr4szqtr4sz-removebg-preview.png" alt="Capwise Logo">
+                <span>CAPWISE</span>
+            </a>
+            <div class="navbar-links">
+                <a href="#features">Features</a>
+                <a href="about-us.html">About Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="navbar-actions">
+                <a href="#" class="btn btn-secondary login-btn">Login</a>
+                <a href="#" class="btn btn-primary signup-btn">Sign Up</a>
+            </div>
+            <button class="menu-toggle" aria-label="Open navigation menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title">CapWise</h1>
+                <p class="hero-subtitle">The only Indian startup valuation tool built for founders.<br>Accurate. Transparent. India-specific.</p>
+            </div>
+            <div class="hero-bg-shapes"></div>
+        </section>
+        <section id="why" class="why-section">
+            <div class="container">
+                <div class="why-card">
+                    <div class="why-card-content">
+                        <h2 class="why-title">Why You Need Us?</h2>
+                        <p class="why-summary">Most Indian founders face unfair valuations and generic models. Capwise provides transparent, data-driven, and fair valuations for every stage.</p>
+                        <ul>
+                            <li><i class="fas fa-exclamation-triangle"></i> <strong>Exploitation is real:</strong> Many founders are undervalued due to lack of India-specific models.</li>
+                            <li><i class="fas fa-shield-alt"></i> <strong>No more guesswork:</strong> Get investor-ready reports and actionable dashboards.</li>
+                        </ul>
+                        <a href="contact.html" class="btn btn-primary">Schedule a Call</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="features" class="features-section">
+            <div class="container">
+                <h2 class="section-title">Features Built for Founders</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <h3>Investor-Ready Reports</h3>
+                        <p>Instantly generate professional, India-specific reports to impress investors and support your funding journey.</p>
+                        <a href="SAMPLE REPORT.html" class="btn btn-secondary">See Sample Report</a>
+                    </div>
+                    <div class="feature-card">
+                        <div class="card-icon"><i class="fas fa-brain"></i></div>
+                        <h3>Smart Decision Support</h3>
+                        <p>Make daily business decisions with confidence using our data-driven dashboards and actionable insights.</p>
+                        <a href="#" class="btn btn-secondary login-btn">Create a Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="faq-section">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>How does Capwise calculate valuations?</h4>
+                        <p>We use proprietary, India-specific models and real market data for accuracy.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I export my reports?</h4>
+                        <p>Yes, all reports are downloadable in PDF format.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Is my data secure?</h4>
+                        <p>Absolutely. We use industry-standard encryption and privacy practices.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="team-section">
+            <div class="container">
+                <h2 class="section-title">Meet the Team</h2>
+                <div class="team-grid">
+                    <div class="team-member-card">
+                        <img src="batlesh.png" alt="Vivaan - Co-Founder">
+                        <h3>Vivaan</h3>
+                        <p>Co-Founder</p>
+                    </div>
+                    <div class="team-member-card">
+                        <img src="kartik.jpg" alt="Kartik - Co-Founder">
+                        <h3>Kartik</h3>
+                        <p>Co-Founder</p>
+                    </div>
+                </div>
+                 <a href="about-us.html" class="btn btn-primary">More About Us</a>
+            </div>
+        </section>
+    </main>
+
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+            <h2 id="modal-title">Login to Capwise</h2>
+            
+            <form id="login-form" class="auth-form" autocomplete="off">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Login</button>
+                <p class="form-switch">New user? <a href="#" id="show-signup">Sign up</a></p>
+            </form>
+
+            <form id="signup-form" class="auth-form" autocomplete="off" style="display:none;">
+                <div class="form-group">
+                    <label for="signup-company-name">Company Name</label>
+                    <input type="text" id="signup-company-name" name="signup-company-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-location">Location (City)</label>
+                    <input type="text" id="signup-location" name="signup-location" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-sector">Sector</label>
+                    <input type="text" id="signup-sector" name="signup-sector" required placeholder="e.g., FinTech, EdTech, SaaS">
+                </div>
+                <div class="form-group">
+                    <label for="signup-year">Year of Establishment</label>
+                    <input type="number" id="signup-year" name="signup-year" required min="1900" max="2025">
+                </div>
+                <div class="form-group">
+                    <label for="signup-contact">Contact Number</label>
+                    <input type="tel" id="signup-contact" name="signup-contact" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-website">Website URL</label>
+                    <input type="url" id="signup-website" name="signup-website" required placeholder="https://example.com">
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" name="signup-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="signup-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Sign Up & Continue</button>
+                <p class="form-switch">Already have an account? <a href="#" id="show-login">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div id="package-modal" class="modal-overlay">
+        <div class="modal-container">
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+            <h2 id="package-modal-title">Choose Your Plan</h2>
+            <p style="text-align: center; margin-top: -10px; color: #666;">Select a package to continue to your dashboard.</p>
+            <div class="package-grid">
+                <div class="package-card" data-package="basic">
+                    <h3>Basic Plan</h3>
+                    <p>Get started with essential valuation tools and a standard dashboard for your startup.</p>
+                    <button class="btn btn-secondary package-select-btn">Select Basic</button>
+                </div>
+                <div class="package-card" data-package="premium">
+                    <h3>Premium Plan</h3>
+                    <p>Unlock advanced features, in-depth reports, and priority support to accelerate your growth.</p>
+                    <button class="btn btn-primary package-select-btn">Select Premium</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Modal elements
+            const loginModalOverlay = document.getElementById('login-modal');
+            const packageModalOverlay = document.getElementById('package-modal');
+            
+            // Forms
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            
+            // Modal Title
+            const modalTitle = document.getElementById('modal-title');
+            
+            // --- Modal Control Functions ---
+            const openLoginModal = () => loginModalOverlay.classList.add('visible');
+            const closeLoginModal = () => loginModalOverlay.classList.remove('visible');
+            const openPackageModal = () => packageModalOverlay.classList.add('visible');
+            const closePackageModal = () => packageModalOverlay.classList.remove('visible');
+
+            // --- Event Listeners to OPEN Login/Signup Modal ---
+            document.querySelectorAll('.login-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modalTitle.textContent = 'Login to Capwise';
+                    signupForm.style.display = 'none';
+                    loginForm.style.display = 'block';
+                    openLoginModal();
+                });
+            });
+
+            document.querySelectorAll('.signup-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modalTitle.textContent = 'Sign Up for Capwise';
+                    loginForm.style.display = 'none';
+                    signupForm.style.display = 'block';
+                    openLoginModal();
+                });
+            });
+
+            // --- Event Listeners to CLOSE modals ---
+            document.querySelector('#login-modal .modal-close').addEventListener('click', closeLoginModal);
+            loginModalOverlay.addEventListener('click', (e) => {
+                if (e.target === loginModalOverlay) closeLoginModal();
+            });
+            
+            document.querySelector('#package-modal .modal-close').addEventListener('click', closePackageModal);
+            packageModalOverlay.addEventListener('click', (e) => {
+                if (e.target === packageModalOverlay) closePackageModal();
+            });
+
+            // --- Event Listeners to SWITCH between Login and Signup forms ---
+            document.getElementById('show-signup').addEventListener('click', (e) => {
+                e.preventDefault();
+                modalTitle.textContent = 'Sign Up for Capwise';
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+            });
+
+            document.getElementById('show-login').addEventListener('click', (e) => {
+                e.preventDefault();
+                modalTitle.textContent = 'Login to Capwise';
+                signupForm.style.display = 'none';
+                loginForm.style.display = 'block';
+            });
+            
+            // --- Form Submission Logic ---
+
+            // Login Form: Redirects directly to dashboard
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                window.location.href = 'livedash2.html'; 
+            });
+
+            // Signup Form: Gathers data, saves to localStorage, then shows package modal
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // 1. Gather data from the form
+                const companyProfile = {
+                    companyName: document.getElementById('signup-company-name').value,
+                    location: document.getElementById('signup-location').value,
+                    sector: document.getElementById('signup-sector').value,
+                    year: document.getElementById('signup-year').value,
+                    contact: document.getElementById('signup-contact').value,
+                    website: document.getElementById('signup-website').value,
+                    email: document.getElementById('signup-email').value,
+                };
+
+                // 2. Save data to localStorage for the dashboard page to use
+                localStorage.setItem('companyProfile', JSON.stringify(companyProfile));
+                
+                // 3. Close the signup modal and open the package modal
+                closeLoginModal();
+                openPackageModal();
+            });
+
+            // --- Package Selection Logic ---
+            document.querySelectorAll('.package-select-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const selectedPackage = this.closest('.package-card').dataset.package;
+                    localStorage.setItem('selectedPackage', selectedPackage);
+                    
+                    // Redirect to the dashboard
+                    window.location.href = 'livedash2.html';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

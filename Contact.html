@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Contact Us - Capwise</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* New Color Palette */
+            --blue-primary: #2563EB;
+            --blue-dark: #1E40AF;
+            --navy-deep: #0A143D;
+            --slate-800: #1E293B;
+            --slate-600: #475569;
+            --slate-100: #F1F5F9;
+            --slate-200: #E2E8F0;
+            --white: #FFFFFF;
+            
+            /* Standard Variables */
+            --success-green: #16a34a;
+            --radius: 12px;
+            --font-family: 'Inter', sans-serif;
+            --radius-md: 12px;
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --transition: color 0.3s ease;
+        }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--navy-deep); /* Changed background to navy */
+            color: var(--slate-100); /* Changed default text to light for contrast */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- NAVBAR STYLES --- */
+        .site-header {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            right: 16px;
+            z-index: 1000;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--slate-800);
+        }
+        .navbar-logo img {
+            height: 40px;
+            width: auto;
+        }
+        .navbar-links {
+            display: flex;
+            gap: 32px;
+        }
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--slate-800); /* Changed to black */
+            font-weight: 700; 
+            transition: var(--transition);
+        }
+        .navbar-links a:hover {
+            color: var(--blue-primary);
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--slate-800);
+        }
+        
+        .spacer { height: 100px; }
+        .contact-card {
+            background-color: var(--white);
+            color: var(--slate-800);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            margin: 2rem 1rem;
+        }
+        .contact-card h1 {
+            font-size: 2.5em;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--navy-deep);
+        }
+        .contact-card form { display: flex; flex-direction: column; text-align: left; }
+        .contact-card label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--slate-600);
+        }
+        .contact-card input, .contact-card textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--slate-200);
+            border-radius: 8px;
+            font-size: 1em;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .contact-card input:focus, .contact-card textarea:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
+        .contact-card button[type="submit"] {
+            background-color: var(--blue-primary);
+            color: var(--white);
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .contact-card button[type="submit"]:hover { background-color: var(--blue-dark); }
+        .contact-card .info {
+            margin-top: 2rem;
+            color: var(--slate-600);
+            line-height: 1.6;
+        }
+        /* Confirmation Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 20, 61, 0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.visible {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-container {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.visible .modal-container {
+            transform: scale(1);
+        }
+        .modal-container .icon {
+            font-size: 4rem;
+            color: var(--success-green);
+            margin-bottom: 1rem;
+        }
+        .modal-container h2 {
+            font-size: 1.8em;
+            margin-bottom: 0.5rem;
+            color: var(--slate-800);
+        }
+        .modal-container p {
+            color: var(--slate-800);
+            margin-bottom: 2rem;
+        }
+        .modal-close-btn {
+            background-color: var(--blue-primary);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .modal-close-btn:hover { background-color: var(--blue-dark); }
+
+        /* Responsive Navigation */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            .navbar-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .navbar-links.active {
+                display: flex;
+            }
+            .navbar-links a {
+                padding: 0.5rem 0;
+            }
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="navbar">
+            <a href="index.html" class="navbar-logo">
+                <img src="Gemini_Generated_Image_r4szqtr4szqtr4sz-removebg-preview.png" alt="Capwise Logo">
+                <span>Capwise</span>
+            </a>
+            <div class="navbar-links" id="navbar-links">
+                <a href="index.html#features">Features</a>
+                <a href="about-us.html">About Us</a>
+            </div>
+            <button class="menu-toggle" id="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+    <div class="spacer"></div>
+    <div class="contact-card">
+        <h1>Contact Us</h1>
+        <form id="contact-form">
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="requirements">Brief Requirements:</label>
+            <textarea id="requirements" name="requirements" rows="4" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div class="info">
+            You will receive a callback within 24 hours.<br>
+            For direct communication, you can reach us at:
+            <a href="mailto:contact@capwise.com" style="color:var(--blue-primary);text-decoration:underline;">contact@capwise.com</a>
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="icon"><i class="fas fa-check-circle"></i></div>
+            <h2>Thank You!</h2>
+            <p>Your details have been submitted. We'll be in touch shortly.</p>
+            <button id="close-modal-btn" class="modal-close-btn">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contactForm = document.getElementById('contact-form');
+            const confirmationModal = document.getElementById('confirmation-modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const menuToggle = document.getElementById('menu-toggle');
+            const navbarLinks = document.getElementById('navbar-links');
+
+            // Form submission logic
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                confirmationModal.classList.add('visible');
+                contactForm.reset();
+            });
+
+            // Modal closing logic
+            const closeModal = () => {
+                confirmationModal.classList.remove('visible');
+            };
+            closeModalBtn.addEventListener('click', closeModal);
+            confirmationModal.addEventListener('click', (e) => {
+                if (e.target === confirmationModal) {
+                    closeModal();
+                }
+            });
+
+            // Responsive navigation toggle
+            menuToggle.addEventListener('click', () => {
+                navbarLinks.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

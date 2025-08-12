@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capwise - Comprehensive Financial Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #0a143d;
+            --bg-light: #f8fafc;
+            --primary-blue: #0077cc;
+            --primary-blue-light: #e6f2ff;
+            --text-dark: #1e293b;
+            --text-light: #f1f5f9;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --success-green: #22c55e;
+            --danger-red: #ef4444;
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --radius: 12px;
+            --font-family: 'Inter', sans-serif;
+            --transition-speed: 0.3s;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .main-wrapper { display: flex; min-height: 100vh; }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-dark);
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #1e293b;
+            transition: width var(--transition-speed) ease;
+        }
+        .sidebar-header {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color var(--transition-speed), color var(--transition-speed);
+        }
+        .nav-link i { width: 20px; margin-right: 1rem; text-align: center; }
+        .nav-link:hover { background-color: #1e293b; color: white; }
+        .nav-link.active { background-color: var(--primary-blue); color: white; }
+
+        /* --- Main Content Area --- */
+        .content-area {
+            flex-grow: 1;
+            background-color: var(--bg-light);
+            padding: 2rem;
+            color: var(--text-dark);
+            overflow-y: auto;
+            max-height: 100vh;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .page-header {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        /* --- Card and Input Styling --- */
+        .card {
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        tr:last-child > td { border-bottom: none; }
+        th { font-weight: 600; color: var(--text-muted); }
+        td:last-child { text-align: right; }
+        input[type=number] {
+            width: 160px;
+            padding: 0.5rem 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: right;
+            transition: all var(--transition-speed);
+        }
+        input[type=number]:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px var(--primary-blue-light);
+        }
+        td.result {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            transition: color var(--transition-speed);
+        }
+        td.result.final-result {
+            color: var(--success-green);
+            font-size: 1.2rem;
+        }
+
+        /* --- Enhanced Dashboard Visuals --- */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white; border-radius: var(--radius); padding: 1.5rem;
+            box-shadow: var(--shadow-md); border-left: 5px solid var(--primary-blue);
+        }
+        .stat-card .label { font-weight: 600; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .stat-card .value { font-size: 2rem; font-weight: 800; color: var(--text-dark); }
+        .final-valuation-card { border-left-color: var(--success-green); }
+        .final-valuation-card .value { color: var(--success-green); }
+        
+        .football-field-chart .chart-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .chart-row { display: flex; align-items: center; margin-bottom: 1rem; }
+        .chart-row .label { width: 150px; font-weight: 600; color: var(--text-muted); flex-shrink: 0; }
+        .chart-bar-container {
+            flex-grow: 1; background-color: #eef2ff; border-radius: 8px;
+            height: 35px; position: relative; overflow: hidden;
+        }
+        .chart-bar {
+            position: absolute; height: 100%; background-image: linear-gradient(45deg, var(--primary-blue), #3b82f6);
+            border-radius: 8px; transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            display: flex; align-items: center; justify-content: flex-end;
+            color: white; font-size: 0.9rem; font-weight: 600; padding-right: 12px; white-space: nowrap;
+        }
+
+        /* New Visualizations Styling */
+        .metrics-list { list-style: none; padding: 0; }
+        .metrics-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .metrics-list li:last-child { border-bottom: none; }
+        .metrics-list .metric-label { font-weight: 600; color: var(--text-muted); }
+        .metrics-list .metric-value { font-weight: 700; font-size: 1.1rem; color: var(--text-dark); }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .main-wrapper { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; overflow-x: auto; padding: 0.5rem; border-right: none; border-bottom: 1px solid #1e293b; }
+            .sidebar-header { display: none; }
+            .nav-link { flex-direction: column; font-size: 0.8rem; padding: 0.5rem; margin: 0 0.25rem; }
+            .nav-link i { margin: 0 0 0.25rem 0; }
+            .content-area { padding: 1rem; max-height: none; }
+            .page-header { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <nav class="sidebar">
+        <div class="sidebar-header">Capwise</div>
+        <a href="#" class="nav-link active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="#" class="nav-link" data-tab="company"><i class="fas fa-building"></i> Company</a>
+        <a href="#" class="nav-link" data-tab="income"><i class="fas fa-file-invoice-dollar"></i> Income Statement</a>
+        <a href="#" class="nav-link" data-tab="balancesheet"><i class="fas fa-balance-scale"></i> Balance Sheet</a>
+        <a href="#" class="nav-link" data-tab="assumptions"><i class="fas fa-cogs"></i> Assumptions</a>
+    </nav>
+
+    <main class="content-area">
+        <!-- ======================== TAB 1: LIVE VALUATION DASHBOARD ======================== -->
+        <section class="tab-content active" id="dashboard">
+            <h1 class="page-header">Live Valuation Dashboard</h1>
+            <div class="stat-grid">
+                <div class="stat-card"><div class="label">DCF Valuation</div><div class="value" id="dcfValue">₹0 Cr</div></div>
+                <div class="stat-card"><div class="label">Market Multiple</div><div class="value" id="marketValue">₹0 Cr</div></div>
+                <div class="stat-card"><div class="label">Cost Approach</div><div class="value" id="costValue">₹0 Cr</div></div>
+                <div class="stat-card final-valuation-card"><div class="label">Implied Enterprise Value</div><div class="value" id="finalValue">₹0 Cr</div></div>
+            </div>
+            
+            <div class="card">
+                <div class="chart-title">Key Financial Metrics</div>
+                <ul class="metrics-list">
+                    <li><span class="metric-label">Gross Margin</span> <span class="metric-value" id="grossMargin">0%</span></li>
+                    <li><span class="metric-label">EBITDA Margin</span> <span class="metric-value" id="ebitdaMargin">0%</span></li>
+                    <li><span class="metric-label">Net Profit Margin</span> <span class="metric-value" id="netMargin">0%</span></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="football-field-chart">
+                    <div class="chart-title">Valuation Range ("Football Field")</div>
+                    <div class="chart-row"><div class="label">Cost Approach</div><div class="chart-bar-container"><div class="chart-bar" id="costBar"></div></div></div>
+                    <div class="chart-row"><div class="label">DCF Analysis</div><div class="chart-bar-container"><div class="chart-bar" id="dcfBar"></div></div></div>
+                    <div class="chart-row"><div class="label">Market Multiple</div><div class="chart-bar-container"><div class="chart-bar" id="marketBar"></div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================== TAB 2: COMPANY PROFILE ======================== -->
+        <section class="tab-content" id="company">
+            <h1 class="page-header" id="cp-header">Company Profile</h1>
+            <div class="card">
+                <table>
+                    <tr><th>Sector</th><td id="cp-sector">N/A</td></tr>
+                    <tr><th>Established</th><td id="cp-year">N/A</td></tr>
+                    <tr><th>Location</th><td id="cp-location">N/A</td></tr>
+                    <tr><th>Package</th><td id="cp-package">N/A</td></tr>
+                    <tr><th>Contact</th><td id="cp-contact">N/A</td></tr>
+                    <tr><th>Email</th><td id="cp-email">N/A</td></tr>
+                    <tr><th>Website</th><td><a href="#" id="cp-website" target="_blank" rel="noopener noreferrer">N/A</a></td></tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- ======================== TAB 3: INCOME STATEMENT ======================== -->
+        <section class="tab-content" id="income">
+            <h1 class="page-header">Income Statement Inputs</h1>
+            <div class="card">
+                <div class="card-header">Revenue (Year 2 Projections)</div>
+                <table>
+                    <tr><th>Sales Growth Rate (%)</th><td><input type="number" id="salesGrowth" value="20"></td></tr>
+                    <tr><th>Units Sold (Year 1)</th><td><input type="number" id="unitsSoldY1" value="4167"></td></tr>
+                    <tr><th>Per Unit Selling Price (₹)</th><td><input type="number" id="unitPrice" value="10000"></td></tr>
+                    <tr><th>Subscription Charges per Unit (₹)</th><td><input type="number" id="subCharges" value="500"></td></tr>
+                    <tr style="background-color: var(--primary-blue-light);"><th>Total Revenue (₹)</th><td class="result" id="totalRevenue">-</td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-header">Cost of Goods Sold (COGS)</div>
+                <table>
+                    <tr><th>COGS per Unit (₹)</th><td><input type="number" id="cogsUnit" value="2500"></td></tr>
+                    <tr><th>Cloud Charges per Unit (₹)</th><td><input type="number" id="cloudUnit" value="300"></td></tr>
+                    <tr style="background-color: var(--primary-blue-light);"><th>Total COGS (₹)</th><td class="result" id="totalCogs">-</td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-header">Operating Expenses (Opex - Year 2)</div>
+                <table>
+                    <tr><th>No. of Workers</th><td><input type="number" id="workersY2" value="10"></td></tr>
+                    <tr><th>Avg. Worker Salary (₹)</th><td><input type="number" id="workerSalary" value="600000"></td></tr>
+                    <tr><th>No. of Marketers</th><td><input type="number" id="marketersY2" value="3"></td></tr>
+                    <tr><th>Avg. Marketer Salary (₹)</th><td><input type="number" id="mktProSalary" value="800000"></td></tr>
+                    <tr><th>No. of Accountants</th><td><input type="number" id="accY2" value="1"></td></tr>
+                    <tr><th>Avg. Accountant Salary (₹)</th><td><input type="number" id="accSalary" value="700000"></td></tr>
+                    <tr><th>CEO Salary (₹)</th><td><input type="number" id="ceoSalary" value="2400000"></td></tr>
+                    <tr><th>COO Salary (₹)</th><td><input type="number" id="cooSalary" value="2000000"></td></tr>
+                    <tr style="background-color: #f1f5f9;"><th>Total Salary Cost (₹)</th><td class="result" id="totalSalary">-</td></tr>
+                    <tr><th>Rent (₹)</th><td><input type="number" id="rent" value="1200000"></td></tr>
+                    <tr><th>Utilities (Internet, Electricity) (₹)</th><td><input type="number" id="utilities" value="300000"></td></tr>
+                    <tr><th>Marketing Spend (₹)</th><td><input type="number" id="marketing" value="2500000"></td></tr>
+                    <tr><th>Miscellaneous (₹)</th><td><input type="number" id="misc" value="500000"></td></tr>
+                    <tr style="background-color: #f1f5f9;"><th>Total G&A Expenses (₹)</th><td class="result" id="totalGAndA">-</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- ======================== TAB 4: BALANCE SHEET ======================== -->
+        <section class="tab-content" id="balancesheet">
+            <h1 class="page-header">Balance Sheet & Capital Inputs</h1>
+            <div class="card">
+                <div class="card-header">Balance Sheet Data (Current)</div>
+                <table>
+                    <tr><th>Total Assets (₹)</th><td><input type="number" id="totalAssets" value="30000000"></td></tr>
+                    <tr><th>Total Liabilities (₹)</th><td><input type="number" id="totalLiabilities" value="12000000"></td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <div class="card-header">Capital Expenditures & Depreciation</div>
+                 <table>
+                    <tr><th>Capital Expenditures (Capex) (₹)</th><td><input type="number" id="capex" value="2000000"></td></tr>
+                    <tr><th>Depreciation (as % of Capex)</th><td><input type="number" id="depreciationPercent" value="20"></td></tr>
+                    <tr><th>Change in Working Capital (₹)</th><td><input type="number" id="workingCapitalChange" value="1000000"></td></tr>
+                    <tr style="background-color: var(--primary-blue-light);"><th>Calculated Depreciation (₹)</th><td class="result" id="calculatedDepreciation">-</td></tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- ======================== TAB 5: ASSUMPTIONS ======================== -->
+        <section class="tab-content" id="assumptions">
+            <h1 class="page-header">Valuation Assumptions</h1>
+            <div class="card">
+                <div class="card-header">Core Assumptions</div>
+                <table>
+                    <tr><th>Discount Rate (WACC, %)</th><td><input type="number" id="discountRate" value="18"></td></tr>
+                    <tr><th>Perpetual Growth Rate (%)</th><td><input type="number" id="terminalGrowthRate" value="5"></td></tr>
+                    <tr><th>Industry EV/EBITDA Multiple</th><td><input type="number" id="ebitdaMultiple" value="12"></td></tr>
+                    <tr><th>Effective Tax Rate (%)</th><td><input type="number" id="taxRate" value="25"></td></tr>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- PART 1: UI & NAVIGATION SETUP ---
+    const navLinks = document.querySelectorAll('.nav-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+    navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const tabId = link.dataset.tab;
+            navLinks.forEach(l => l.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+            link.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // --- PART 2: POPULATE COMPANY PROFILE ---
+    const profile = JSON.parse(localStorage.getItem('companyProfile')) || {};
+    const selectedPackage = localStorage.getItem('selectedPackage') || 'N/A';
+    const updateText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value || 'N/A';
+    };
+    updateText('cp-header', profile.companyName || 'Company Profile');
+    updateText('cp-sector', profile.sector);
+    updateText('cp-year', profile.year);
+    updateText('cp-location', profile.location);
+    updateText('cp-contact', profile.contact);
+    updateText('cp-email', profile.email);
+    updateText('cp-package', selectedPackage.charAt(0).toUpperCase() + selectedPackage.slice(1));
+    const websiteLink = document.getElementById('cp-website');
+    if (websiteLink && profile.website) {
+        websiteLink.href = profile.website;
+        websiteLink.textContent = profile.website.replace(/^(https?:\/\/)?(www\.)?/, '');
+    }
+
+    // --- PART 3: DYNAMIC CALCULATION ENGINE ---
+    const allInputs = document.querySelectorAll('.content-area input[type="number"]');
+    
+    function animateValue(element, start, end, duration, isCrore) {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const currentValue = progress * (end - start) + start;
+            
+            if (isCrore) {
+                 element.textContent = `₹${(currentValue / 10000000).toFixed(2)} Cr`;
+            } else {
+                 element.textContent = `₹${Math.round(currentValue).toLocaleString('en-IN')}`;
+            }
+
+            if (progress < 1) window.requestAnimationFrame(step);
+        };
+        window.requestAnimationFrame(step);
+    }
+
+    function runAllCalculations() {
+        const values = {};
+        allInputs.forEach(input => {
+            values[input.id] = parseFloat(input.value) || 0;
+        });
+
+        // --- Step 1: Revenue & COGS Calculation ---
+        const unitsSoldY2 = values.unitsSoldY1 * (1 + values.salesGrowth / 100);
+        const totalRevenue = unitsSoldY2 * (values.unitPrice + values.subCharges);
+        const totalCogs = unitsSoldY2 * (values.cogsUnit + values.cloudUnit);
+        document.getElementById('totalRevenue').textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+        document.getElementById('totalCogs').textContent = `₹${totalCogs.toLocaleString('en-IN')}`;
+
+        // --- Step 2: Operating Expenses Calculation ---
+        const totalSalary = (values.workersY2 * values.workerSalary) + 
+                              (values.marketersY2 * values.mktProSalary) + 
+                              (values.accY2 * values.accSalary) + 
+                              values.ceoSalary + values.cooSalary;
+        const totalGAndA = values.rent + values.utilities + values.marketing + values.misc;
+        const totalOpex = totalSalary + totalGAndA;
+        document.getElementById('totalSalary').textContent = `₹${totalSalary.toLocaleString('en-IN')}`;
+        document.getElementById('totalGAndA').textContent = `₹${totalGAndA.toLocaleString('en-IN')}`;
+
+        // --- Step 3: P&L and Cash Flow Items ---
+        const grossProfit = totalRevenue - totalCogs;
+        const depreciation = values.capex * (values.depreciationPercent / 100);
+        const ebitda = grossProfit - totalOpex;
+        const ebit = ebitda - depreciation;
+        const ebt = ebit; 
+        const taxes = ebt > 0 ? ebt * (values.taxRate / 100) : 0;
+        const netIncome = ebt - taxes;
+        const fcff = ebit * (1 - values.taxRate / 100) + depreciation - values.capex - values.workingCapitalChange;
+        document.getElementById('calculatedDepreciation').textContent = `₹${depreciation.toLocaleString('en-IN')}`;
+
+        // --- Step 4: Core Valuation Calculations ---
+        const wacc = values.discountRate / 100;
+        const growthRate = values.terminalGrowthRate / 100;
+        let dcfVal = 0;
+        if (wacc > growthRate) {
+            const terminalValue = (fcff * (1 + growthRate)) / (wacc - growthRate);
+            dcfVal = terminalValue;
+        }
+        const marketVal = ebitda * values.ebitdaMultiple;
+        const costVal = values.totalAssets - values.totalLiabilities;
+        const finalVal = (dcfVal * 0.45) + (marketVal * 0.45) + (costVal * 0.10);
+
+        // --- Step 5: Update Dashboard UI with Animation ---
+        const getNumericValue = (text) => parseFloat(text.replace(/[^0-9.-]+/g,"")) * 10000000 || 0;
+        
+        animateValue(document.getElementById('dcfValue'), getNumericValue(document.getElementById('dcfValue').textContent), dcfVal, 700, true);
+        animateValue(document.getElementById('marketValue'), getNumericValue(document.getElementById('marketValue').textContent), marketVal, 700, true);
+        animateValue(document.getElementById('costValue'), getNumericValue(document.getElementById('costValue').textContent), costVal, 700, true);
+        animateValue(document.getElementById('finalValue'), getNumericValue(document.getElementById('finalValue').textContent), finalVal, 700, true);
+
+        // --- Step 6: Update Key Metrics Card ---
+        const grossMargin = totalRevenue > 0 ? (grossProfit / totalRevenue) * 100 : 0;
+        const ebitdaMargin = totalRevenue > 0 ? (ebitda / totalRevenue) * 100 : 0;
+        const netMargin = totalRevenue > 0 ? (netIncome / totalRevenue) * 100 : 0;
+        document.getElementById('grossMargin').textContent = `${grossMargin.toFixed(1)}%`;
+        document.getElementById('ebitdaMargin').textContent = `${ebitdaMargin.toFixed(1)}%`;
+        document.getElementById('netMargin').textContent = `${netMargin.toFixed(1)}%`;
+
+        // --- Step 7: Update Football Field Chart ---
+        const maxVal = Math.max(dcfVal, marketVal, costVal, 1);
+        const updateBar = (barId, value) => {
+            const bar = document.getElementById(barId);
+            const width = Math.max(0, (value / maxVal) * 100);
+            bar.style.width = `${width}%`;
+            bar.textContent = `₹${(value / 10000000).toFixed(2)} Cr`;
+        };
+        updateBar('costBar', costVal);
+        updateBar('dcfBar', dcfVal);
+        updateBar('marketBar', marketVal);
+    }
+
+    // --- PART 5: EVENT LISTENERS & INITIALIZATION ---
+    allInputs.forEach(input => {
+        input.addEventListener('input', runAllCalculations);
+    });
+    runAllCalculations(); // Initial run on page load
+});
+</script>
+
+</body>
+</html>
