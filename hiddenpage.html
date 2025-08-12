@@ -5,19 +5,22 @@
     <title>Our Philosophy - Capwise</title>
     <meta name="description" content="The design philosophy, team, and values that guide Capwise.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
     <link rel="icon" type="image/png" href="https://placehold.co/32x32/1E40AF/FFFFFF?text=C&font=inter">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="Gemini_Generated_Image_r4szqtr4szqtr4sz-removebg-preview">
+    
     <style>
+        /* --- 1. Global Variables & Base Styles --- */
         :root {
-            --bg-dark: #111827; /* Dark Slate Blue */
-            --card-bg: #1f2937; /* Lighter Slate */
+            --bg-dark: #111827;
+            --card-bg: #1f2937;
             --border-color: #374151;
-            --text-primary: #f9fafb; /* Off-white */
-            --text-secondary: #9ca3af; /* Gray */
-            --brand-primary: #3b82f6; /* Bright Blue */
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --brand-primary: #3b82f6;
             --brand-gradient: linear-gradient(to right, #3b82f6, #60a5fa);
             --font-family: 'Inter', sans-serif;
         }
@@ -38,8 +41,8 @@
             color: var(--text-primary);
             -webkit-font-smoothing: antialiased;
         }
-
-        /* --- Reusable Header --- */
+        
+        /* --- 2. Reusable Components (Header & Buttons) --- */
         .site-header {
             position: fixed;
             top: 16px;
@@ -47,17 +50,20 @@
             right: 16px;
             z-index: 1000;
         }
+        
         .navbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
             background: rgba(31, 41, 55, 0.7);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             padding: 12px 24px;
             border-radius: 8px;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.2);
         }
+        
         .navbar-logo {
             display: flex;
             align-items: center;
@@ -67,18 +73,66 @@
             font-size: 1.25rem;
             color: var(--text-primary);
         }
-        .navbar-logo img { height: 40px; border-radius: 50%; }
-        .navbar-links { display: flex; gap: 32px; }
-        .navbar-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.3s; }
-        .navbar-links a:hover { color: var(--text-primary); }
-        .navbar-actions { display: flex; gap: 12px; }
-        .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 2px solid transparent; transition: all 0.3s; cursor: pointer; text-align: center; }
-        .btn-primary { background: var(--brand-primary); color: #fff; }
-        .btn-primary:hover { background: #2563eb; transform: translateY(-2px); }
-        .btn-secondary { background-color: var(--card-bg); color: var(--text-primary); border-color: var(--border-color); }
-        .btn-secondary:hover { background-color: var(--border-color); }
         
-        /* --- Page Specific Styles --- */
+        .navbar-logo img {
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .navbar-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .navbar-links a:hover {
+            color: var(--text-primary);
+        }
+        
+        .navbar-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: var(--brand-primary);
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+        
+        /* --- 3. Page Layout & Section Styling --- */
         main {
             padding-top: 150px;
             padding-bottom: 80px;
@@ -94,15 +148,19 @@
             text-align: center;
             margin-bottom: 3rem;
         }
-        .section-header h1, .section-header h2 {
+        
+        .section-header h1, 
+        .section-header h2 {
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 800;
             line-height: 1.1;
             background: var(--brand-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1.5rem;
         }
+        
         .section-header p {
             font-size: 1.25rem;
             color: var(--text-secondary);
@@ -110,27 +168,39 @@
             margin: 0 auto;
             line-height: 1.6;
         }
+        
         .section-header h2 {
-             font-size: clamp(2rem, 4vw, 3rem);
+            font-size: clamp(2rem, 4vw, 3rem);
         }
 
+        /* --- 4. Card & Grid Styles --- */
         .philosophy-grid {
             display: grid;
             gap: 2.5rem;
         }
 
-        .principle-card, .testimonial-card {
+        .principle-card, 
+        .testimonial-card,
+        .team-member-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 2.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        
+        .principle-card:hover,
+        .team-member-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
         .principle-card {
             display: flex;
             gap: 2rem;
             align-items: flex-start;
         }
-
+        
         .principle-icon {
             flex-shrink: 0;
             width: 50px;
@@ -140,6 +210,7 @@
             border-radius: 12px;
             background: var(--bg-dark);
         }
+        
         .principle-icon svg {
             width: 28px;
             height: 28px;
@@ -152,26 +223,48 @@
             margin-bottom: 0.75rem;
             color: var(--text-primary);
         }
+        
         .principle-text p {
             font-size: 1.05rem;
             line-height: 1.7;
             color: var(--text-secondary);
         }
-
-        /* UPDATED Team Section Styles */
+        
+        /* Improved list styling for Stakeholders */
+        .principle-text ul {
+            list-style: none;
+            margin-top: 1rem;
+            padding-left: 0;
+            color: var(--text-secondary);
+        }
+        
+        .principle-text ul li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .principle-text ul li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+        
+        /* Team Section */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 2rem;
             justify-content: center;
         }
+
         .team-member-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
             padding: 2rem;
             text-align: center;
         }
+        
         .team-member-card img {
             width: 120px;
             height: 120px;
@@ -180,21 +273,24 @@
             margin-bottom: 1.5rem;
             object-fit: cover;
         }
+        
         .team-member-card h3 {
             font-size: 1.25rem;
             font-weight: 700;
             color: var(--text-primary);
         }
+        
         .team-member-card p {
             font-size: 1rem;
             color: var(--brand-primary);
             font-weight: 500;
         }
 
-        /* Testimonial Styles */
+        /* Testimonial Section */
         .testimonial-card {
             text-align: center;
         }
+        
         .testimonial-card blockquote {
             font-size: 1.25rem;
             font-style: italic;
@@ -202,14 +298,17 @@
             margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
+        
         .testimonial-card footer {
             font-weight: 600;
             color: var(--text-secondary);
         }
+        
         .testimonial-card footer span {
             color: var(--brand-primary);
             font-weight: 700;
         }
+        
         .placement-note {
             font-size: 0.9rem;
             text-align: center;
@@ -218,11 +317,12 @@
             font-style: italic;
         }
         
-        /* NEW Styles for PageSpeed Image */
+        /* Performance Proof Image */
         .performance-proof {
             margin-top: 2rem;
             text-align: center;
         }
+        
         .performance-proof img {
             max-width: 100%;
             height: auto;
@@ -230,6 +330,7 @@
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
+        
         .performance-proof figcaption {
             margin-top: 1rem;
             font-size: 0.9rem;
@@ -237,21 +338,28 @@
             font-style: italic;
         }
 
-
+        /* --- 5. Responsive Styles --- */
         @media (max-width: 768px) {
             .principle-card {
                 flex-direction: column;
                 gap: 1.5rem;
                 padding: 2rem;
             }
-            .section-header h1, .section-header h2 { font-size: 2.5rem; }
-            .section-header p { font-size: 1.1rem; }
+            .section-header h1, .section-header h2 {
+                font-size: 2.5rem;
+            }
+            .section-header p {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
+
+    <header class="site-header">
+        </header>
+
     <main>
-        <!-- Section 1: Design Philosophy -->
         <section class="page-section" id="philosophy">
             <div class="section-header">
                 <h1>Design is How It Works</h1>
@@ -284,16 +392,12 @@
             </div>
         </section>
 
-                <!-- Section 4: Stakeholder Map -->
         <section class="page-section" id="stakeholders">
             <div class="section-header">
                 <h2>Our Stakeholder Map</h2>
                 <p>At Capwise, our work impacts and is shaped by a diverse set of stakeholders, each playing a vital role in our journey.</p>
             </div>
-
             <div class="philosophy-grid">
-
-                <!-- Internal Stakeholders -->
                 <div class="principle-card">
                     <div class="principle-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -310,8 +414,6 @@
                         </ul>
                     </div>
                 </div>
-
-                <!-- External Stakeholders -->
                 <div class="principle-card">
                     <div class="principle-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -329,8 +431,6 @@
                         </ul>
                     </div>
                 </div>
-
-                <!-- Regulatory & Industry Stakeholders -->
                 <div class="principle-card">
                     <div class="principle-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -347,11 +447,9 @@
                         </ul>
                     </div>
                 </div>
-
             </div>
         </section>
 
-        <!-- Section 2: Team -->
         <section class="page-section" id="team">
             <div class="section-header">
                 <h2>The Minds Behind the Mission</h2>
@@ -370,7 +468,6 @@
             </div>
         </section>
 
-        <!-- Section 3: Testimonial -->
         <section class="page-section" id="testimonial">
             <div class="section-header">
                 <h2>From a Founder Like You</h2>
@@ -382,14 +479,5 @@
             <p class="placement-note">This testimonial would be placed on our main landing page, within a dedicated "What Founders Say" section.</p>
         </section>
     </main>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
