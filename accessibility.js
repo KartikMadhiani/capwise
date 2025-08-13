@@ -1,3 +1,5 @@
+// script.js (Corrected to read all content)
+
 (function () {
     const speech = window.speechSynthesis;
     let screenReaderEnabled = false;
@@ -25,28 +27,34 @@
         }
 
         function getElementDescription(el) {
+            // Return the most relevant text from an element
             return (
                 el.getAttribute('aria-label') ||
                 el.getAttribute('alt') ||
-                el.innerText.trim()
+                el.innerText?.trim() // Use optional chaining for safety
             );
         }
 
+        // *** THIS FUNCTION IS THE CORRECTED PART ***
         function enableFocusForAll() {
-            // Find all major content and interactive elements
-            const elements = document.querySelectorAll('h1, h2, h3, p, a, button, [role="button"], [role="link"]');
+            // Select all elements that might contain readable content
+            const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, a, button, li, [role="button"], [role="link"], img');
+            
             elements.forEach(el => {
                 const hasText = getElementDescription(el);
-                const isNaturallyFocusable = el.tabIndex >= 0;
-                // If it has text but isn't focusable, make it focusable
-                if (hasText && !isNaturallyFocusable) {
-                    el.tabIndex = 0;
-                    addedTabIndexes.push(el);
+                // Check if the element is already focusable by default or has a tabindex
+                const isAlreadyFocusable = el.matches('a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])');
+
+                // If it has text and is NOT already focusable, make it focusable
+                if (hasText && !isAlreadyFocusable) {
+                    el.tabIndex = 0; // Add to the tab order
+                    addedTabIndexes.push(el); // Keep track to remove it later
                 }
             });
         }
 
         function removeAddedFocus() {
+            // Clean up by removing the tabindex from elements we modified
             addedTabIndexes.forEach(el => el.removeAttribute('tabindex'));
             addedTabIndexes = [];
         }
@@ -62,13 +70,13 @@
                 playIcon.style.display = 'none';
                 stopIcon.style.display = 'block';
                 toggleBtn.setAttribute('aria-label', 'Disable Screen Reader Mode');
-                enableFocusForAll();
+                enableFocusForAll(); // Activate the focus logic
                 speak('Screen reader mode enabled.', true);
             } else {
                 playIcon.style.display = 'block';
                 stopIcon.style.display = 'none';
                 toggleBtn.setAttribute('aria-label', 'Enable Screen Reader Mode');
-                removeAddedFocus();
+                removeAddedFocus(); // Deactivate the focus logic
                 speak('Screen reader mode disabled.', true);
             }
         }
