@@ -1,83 +1,103 @@
-// script.js
+(function () {
+    let screenReaderEnabled = false;
+    let speech = window.speechSynthesis;
+    let addedTabIndexes = [];
 
-document.addEventListener('DOMContentLoaded', () => {
-    const ttsButton = document.getElementById('tts-button');
-    const playIcon = ttsButton.querySelector('.feather-volume-2');
-    const stopIcon = ttsButton.querySelector('.feather-square');
+    // Get references to the button and icons once the DOM is loaded
+    let toggleBtn, playIcon, stopIcon;
 
-    // Check if the browser supports the SpeechSynthesis API
-    if ('speechSynthesis' in window) {
-        let isFocusReaderActive = false;
+    function speak(text, isAnnouncement = false) {
+        if (!text) return;
+        speech.cancel();
+        let utterance = new SpeechSynthesisUtterance(text);
+        
+        // Announcements can be slightly different if needed
+        if (isAnnouncement) {
+            utterance.rate = 1.2;
+            utterance.pitch = 1.1;
+        }
 
-        // This function will be called whenever an element receives focus
-        const handleFocus = (event) => {
-            // Do nothing if the focus reader is not active
-            if (!isFocusReaderActive) {
-                return;
-            }
-
-            const focusedElement = event.target;
-            let textToRead = '';
-
-            // Prioritize aria-label for screen reader-specific text
-            if (focusedElement.hasAttribute('aria-label')) {
-                textToRead = focusedElement.getAttribute('aria-label');
-            } 
-            // Then check for inner text (for buttons, links, paragraphs, etc.)
-            else if (focusedElement.innerText) {
-                textToRead = focusedElement.innerText;
-            }
-            // Finally, check for the value (for input fields)
-            else if (focusedElement.value) {
-                textToRead = focusedElement.value;
-            }
-
-            if (textToRead.trim().length > 0) {
-                // Stop any previous speech before starting a new one
-                window.speechSynthesis.cancel();
-
-                const utterance = new SpeechSynthesisUtterance(textToRead);
-                utterance.rate = 1.2; // Slightly faster for quicker navigation
-                utterance.pitch = 1;
-
-                window.speechSynthesis.speak(utterance);
-            }
-        };
-
-        // Listen for the 'focus' event bubbling up to the body
-        // The 'true' argument makes it capture the event on its way down, which is more reliable
-        document.body.addEventListener('focus', handleFocus, true);
-
-        // Repurpose the button to toggle the focus reader ON and OFF
-        ttsButton.addEventListener('click', () => {
-            isFocusReaderActive = !isFocusReaderActive; // Toggle the state
-
-            if (isFocusReaderActive) {
-                // Mode is now ON
-                playIcon.style.display = 'none';
-                stopIcon.style.display = 'block';
-                ttsButton.setAttribute('aria-label', 'Disable focus reading mode. Reading is active.');
-                // Optional: Announce that the mode is on
-                window.speechSynthesis.speak(new SpeechSynthesisUtterance("Focus reading activated."));
-            } else {
-                // Mode is now OFF
-                window.speechSynthesis.cancel(); // Stop any speech
-                playIcon.style.display = 'block';
-                stopIcon.style.display = 'none';
-                ttsButton.setAttribute('aria-label', 'Enable focus reading mode. Reading is inactive.');
-            }
-        });
-
-        // Ensure speech is stopped if the user leaves the page
-        window.addEventListener('beforeunload', () => {
-            if (isFocusReaderActive) {
-                window.speechSynthesis.cancel();
-            }
-        });
-
-    } else {
-        // If the browser doesn't support the API, hide the button
-        console.log("Sorry, your browser does not support text-to-speech.");
-        ttsButton.style.display = 'none';
+        speech.speak(utterance);
     }
-});
+
+    function getElementDescription(el) {
+        return (
+            el.getAttribute('aria-label') ||
+            el.alt ||
+            el.innerText.trim()
+        );
+    }
+
+    function onFocus(e) {
+        if (!screenReaderEnabled) return;
+        const desc = getElementDescription(e.target);
+        if (desc) speak(desc);
+    }
+
+    function onKeyDown(e) {
+        if (!screenReaderEnabled) return;
+        if (e.key === 'Enter' && document.activeElement) {
+            e.preventDefault();
+            document.activeElement.click();
+        }
+    }
+
+    function enableFocusForAll() {
+        const elements = document.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, div, img, a, button');
+        elements.forEach(el => {
+            // Check if the element or its children have descriptive text
+            const hasText = getElementDescription(el);
+            // Check if it is naturally focusable or already has a tabIndex
+            const isNaturallyFocusable = el.tabIndex >= 0;
+
+            if (hasText && !isNaturallyFocusable) {
+                el.tabIndex = 0;
+                addedTabIndexes.push(el);
+            }
+        });
+    }
+
+    function removeAddedFocus() {
+        addedTabIndexes.forEach(el => el.removeAttribute('tabindex'));
+        addedTabIndexes = [];
+    }
+
+    function toggleScreenReader() {
+        screenReaderEnabled = !screenReaderEnabled;
+        speech.cancel();
+
+        // Toggle the high-contrast visual mode
+        document.body.classList.toggle('sr-mode');
+
+        if (screenReaderEnabled) {
+            playIcon.style.display = 'none';
+            stopIcon.style.display = 'block';
+            toggleBtn.setAttribute('aria-label', 'Disable Screen Reader Mode');
+            
+            enableFocusForAll();
+            speak('Screen reader mode enabled', true);
+        } else {
+            playIcon.style.display = 'block';
+            stopIcon.style.display = 'none';
+            toggleBtn.setAttribute('aria-label', 'Enable Screen Reader Mode');
+
+            removeAddedFocus();
+            speak('Screen reader mode disabled', true);
+        }
+    }
+
+    document.addEventListener('focus', onFocus, true);
+    document.addEventListener('keydown', onKeyDown);
+
+    // Wait for the DOM to load before trying to find the button
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleBtn = document.getElementById('sr-toggle-btn');
+        if (toggleBtn) {
+            playIcon = toggleBtn.querySelector('.feather-volume-2');
+            stopIcon = toggleBtn.querySelector('.feather-square');
+            toggleBtn.addEventListener('click', toggleScreenReader);
+        } else {
+            console.error('Screen Reader Toggle Button with id "sr-toggle-btn" not found.');
+        }
+    });
+})();
